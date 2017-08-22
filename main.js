@@ -56,7 +56,7 @@ _appendHtml(el, "ERROR: "+ data["error"]["error_code"] +" "+ data["error"]["erro
 return false;
 }
 var _obj1 = data.response[0];
-if(!!_obj1.post_source){
+if(!!_obj1["post_source"]){
 _appendHtml(el, _obj1.post_source.type ? "post_source.type: "+_obj1.post_source.type+"; " : "");
 _appendHtml(el, _obj1.post_source.platform ? "post_source.platform: "+_obj1.post_source.platform+"; " : "");
 _appendHtml(el, _obj1.post_source.url ? "post_source.url: <a target='_blank' href='"+_obj1.post_source.url+"'>"+_obj1.post_source.url+"</a>; " : "");
