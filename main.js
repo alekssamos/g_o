@@ -51,7 +51,11 @@ ex = re2.exec(strvalue1);
 str2 = ex[1];
 _appendHtml(el, "post: "+str2+"<br>");
 VK.api("wall.getById", {"posts": str2.replace("wall", "")}, function (data) { 
-_obj1 = data.response[0];
+if(!!data["error"]){
+_appendHtml(el, "ERROR: "+ data["error"]["error_code"] +" "+ data["error"]["error_msg"] +"<br>");
+return false;
+}
+var _obj1 = data.response[0];
 _appendHtml(el, _obj1.post_source.type ? "post_source.type: "+_obj1.post_source.type+"; " : "");
 _appendHtml(el, _obj1.post_source.platform ? "post_source.platform: "+_obj1.post_source.platform+"; " : "");
 _appendHtml(el, _obj1.post_source.url ? "post_source.url: <a target='_blank' href='"+_obj1.post_source.url+"'>"+_obj1.post_source.url+"</a>; " : "");
@@ -66,9 +70,14 @@ ex = re1.exec(strvalue1);
 str1 = ex[1];
 _appendHtml(el, "page: "+str1+"<br>");
 VK.api("users.get", {"fields": "online", "user_ids": str1}, function (data) { 
-_appendHtml(el, data.response[0].online ? "Online " : "Offline ");
-_appendHtml(el, data.response[0].online_mobile ? "mobile " : "");
-_appendHtml(el, data.response[0].online_app ? "<a target='_blank' href='https://vk.com/app"+data.response[0].online_app+"'>app"+data.response[0].online_app+"</a>" : "");
+if(!!data["error"]){
+_appendHtml(el, "ERROR: "+ data["error"]["error_code"] +" "+ data["error"]["error_msg"] +"<br>");
+return false;
+}
+var _obj1 = data.response[0];
+_appendHtml(el, _obj1.online ? "Online " : "Offline ");
+_appendHtml(el, _obj1.online_mobile ? "mobile " : "");
+_appendHtml(el, _obj1.online_app ? "<a target='_blank' href='https://vk.com/app"+_obj1.online_app+"'>app"+_obj1.online_app+"</a>" : "");
 _appendHtml(el, "<div class='apiresponsesourceraw' style='display:none;'>"+ _objToHtml(_obj1) +"</div>");
 _appendHtml(el, "<br><a href='javascript:void(0);' onclick='this.style.display=\"none\"; _getElementByClass(document, \"apiresponsesourceraw\").style.display=\"block\";'>показать все поля</a>");
 });
